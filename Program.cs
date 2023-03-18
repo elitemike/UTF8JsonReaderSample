@@ -5,10 +5,17 @@ using JsonReader;
 using System.IO;
 using System.Reflection.PortableExecutable;
 using System;
+using ReaderSample;
 
-Run();
+await Run();
 
-static void Run()
+static async Task Run()
+{
+    // MySample();
+   await new AsyncReader().RunSample();
+}
+
+static void MySample()
 {
     var stream = new FileStream("youtube_sample.json", FileMode.Open);
 
@@ -27,7 +34,7 @@ static void Run()
 
 
     bool EnsureBytesForRead(ref Utf8JsonReader reader)
-    {         
+    {
         while (!reader.Read() && stream.Position < stream.Length)
         {
             // Not enough of the JSON is in the buffer to complete a read.
@@ -79,12 +86,12 @@ static void Run()
 
         while (EnsureBytesForRead(ref reader) && reader.TokenType != JsonTokenType.EndArray)
         {
-                                      
+
             switch (reader.TokenType)
             {
                 case JsonTokenType.StartObject:
                     youTubeItem = new YouTubeItem();
-                    ytItems.Add(youTubeItem);               
+                    ytItems.Add(youTubeItem);
                     break;
                 case JsonTokenType.PropertyName:
                     if (reader.ValueTextEquals(Encoding.UTF8.GetBytes("kind")))
@@ -109,9 +116,9 @@ static void Run()
                         break;
                     }
                     break;
-                default:                   
+                default:
                     break;
-            }          
+            }
         }
     }
 
@@ -123,14 +130,14 @@ static void Run()
 
             switch (reader.TokenType)
             {
-                case JsonTokenType.EndObject:                   
+                case JsonTokenType.EndObject:
                     needsRead = false;
                     break;
                 case JsonTokenType.PropertyName:
                     if (reader.ValueTextEquals(Encoding.UTF8.GetBytes("totalResults")))
                     {
                         EnsureBytesForRead(ref reader);
-                         reader.GetInt32();
+                        reader.GetInt32();
                         break;
                     }
                     if (reader.ValueTextEquals(Encoding.UTF8.GetBytes("resultsPerPage")))
@@ -139,13 +146,13 @@ static void Run()
                         reader.GetInt32();
                         break;
                     }
-                    
+
                     break;
                 default:
                     break;
             }
         }
-      
+
         return new { };
     }
 
@@ -167,7 +174,7 @@ static void Run()
                     }
                     if (reader.ValueTextEquals(Encoding.UTF8.GetBytes("etag")))
                     {
-                        EnsureBytesForRead(ref reader);                                       
+                        EnsureBytesForRead(ref reader);
                         Console.WriteLine($"etag is: {reader.GetString()}");
                         break;
                     }
