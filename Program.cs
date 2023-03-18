@@ -12,7 +12,18 @@ await Run();
 static async Task Run()
 {
     // MySample();
-   await new AsyncReader().RunSample();
+    // await new AsyncUniversityReader().RunSample();
+
+    var countryReader = new AsyncMultiCountryReader();
+
+    await foreach (var country in countryReader.ReadCountries())
+    {
+        Console.WriteLine($"country {country.Name}");
+        await foreach (var university in country.ReadUniversities())
+        {
+            Console.WriteLine($"university {university.Name}");
+        }
+    }
 }
 
 static void MySample()

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ReaderSample
 {
-    class AsyncReader
+    class AsyncUniversityReader
     {
         public async Task RunSample()
         {
@@ -35,8 +35,7 @@ namespace ReaderSample
         public async IAsyncEnumerable<University> YieldReadJsonFromStreamUsingSpan(Stream stream)
         {
             // Assumes all JSON strings in the payload are small (say < 500 bytes)
-            var buffer = new byte[1_024];
-           
+            var buffer = new byte[1_024];           
 
             JsonReaderState state = default;
             int leftOver = 0;          
@@ -63,12 +62,45 @@ namespace ReaderSample
                     buffer.AsSpan(dataSize - leftOver, leftOver).CopyTo(buffer);
                 }
 
-                if (isFinalBlock)
+                if (isFinalBlock || university == null)
                 {
                     break;
                 }
                 yield return university;
             }           
+        }
+
+        public async IAsyncEnumerable<University> YieldReadJsonFromStreamUsingSpan(AsyncMultiCountryReader countryReader)
+        {  
+
+            University university;
+
+            while (true)
+            {
+                // The Memory<byte> ReadAsync overload returns ValueTask which is allocation-free
+                // if the operation completes synchronously
+                int dataLength = await countryReader.stream.ReadAsync(countryReader.buffer.AsMemory(countryReader.leftOver, countryReader.buffer.Length - countryReader.leftOver));
+                int dataSize = dataLength + countryReader.leftOver;
+                bool isFinalBlock = dataSize == 0;
+               
+
+                (university, countryReader.bytesConsumed) = ReadUniversity(countryReader.buffer.AsSpan(0, dataSize), isFinalBlock, ref countryReader.state);
+
+                // Based on your scenario and input data, you may need to grow your buffer here
+                // It's possible that leftOver == dataSize (if a JSON token is too large)
+                // so you need to resize and read more than 1_024 bytes.
+                countryReader.leftOver = dataSize - (int)countryReader.bytesConsumed;
+                if (countryReader.leftOver != 0)
+                {
+                    countryReader.buffer.AsSpan(dataSize - countryReader.leftOver, countryReader.leftOver).CopyTo(countryReader.buffer);
+                }
+
+                if (isFinalBlock || university == null)
+                {
+                    break;
+                }
+                yield return university;
+            }
         }
 
 
@@ -77,7 +109,7 @@ namespace ReaderSample
             var json = new Utf8JsonReader(dataUtf8, isFinalBlock, state);
             University univerisity = null;
 
-            while (json.Read() && json.TokenType != JsonTokenType.EndObject)
+            while (json.Read() && json.TokenType != JsonTokenType.EndObject && json.TokenType != JsonTokenType.EndArray)
             {
                 JsonTokenType tokenType = json.TokenType;
 
@@ -132,11 +164,16 @@ namespace ReaderSample
                                     univerisity.WebPages.Add(json.GetString());
                                 }
                             }
-                        }
+                        }                        
 
                         break;
 
                 }
+            }
+
+            if(json.TokenType == JsonTokenType.EndArray)
+            {
+                Console.WriteLine("End of universities");
             }
 
             state = json.CurrentState;
