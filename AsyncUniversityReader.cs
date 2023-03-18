@@ -173,7 +173,7 @@ namespace ReaderSample
 
             if(json.TokenType == JsonTokenType.EndArray)
             {
-                Console.WriteLine("End of universities");
+                Console.WriteLine("End of universities");               
             }
 
             state = json.CurrentState;

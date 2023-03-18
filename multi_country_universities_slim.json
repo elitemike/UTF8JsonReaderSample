@@ -1,0 +1,60 @@
+[
+  {
+    "name": "United States",
+    "universities": [
+      {
+        "state-province": null,
+        "domains": [
+          "marywood.edu"
+        ],
+        "country": "United States",
+        "web_pages": [
+          "http://www.marywood.edu"
+        ],
+        "name": "Marywood University",
+        "alpha_two_code": "US"
+      },
+      {
+        "state-province": null,
+        "domains": [
+          "lindenwood.edu"
+        ],
+        "country": "United States",
+        "web_pages": [
+          "http://www.lindenwood.edu/"
+        ],
+        "name": "Lindenwood University",
+        "alpha_two_code": "US"
+      }
+    ]
+  },
+  {
+    "name": "France",
+    "universities": [
+      {
+        "state-province": null,
+        "domains": [
+          "ac-paris.fr"
+        ],
+        "country": "France",
+        "web_pages": [
+          "https://www.ac-paris.fr/"
+        ],
+        "name": "Acad\u00e9mie de Paris",
+        "alpha_two_code": "FR"
+      },
+      {
+        "state-province": null,
+        "domains": [
+          "ac-aix-marseille.fr"
+        ],
+        "country": "France",
+        "web_pages": [
+          "https://www.ac-aix-marseille.fr/"
+        ],
+        "name": "Acad\u00e9mie d'Aix-Marseille",
+        "alpha_two_code": "FR"
+      }
+    ]
+  }
+]

@@ -21,7 +21,7 @@ namespace JsonReader
         public AsyncMultiCountryReader()
         {
 
-            stream = new FileStream("multi_country_universities.json", FileMode.Open);
+            stream = new FileStream("multi_country_universities_slim.json", FileMode.Open);
         }
 
        
