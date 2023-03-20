@@ -7,12 +7,19 @@
         "domains": [
           "marywood.edu"
         ],
+        "sports": [
+          {
+            "type": "Basketball",
+            "location": "Indoor arena"
+          }
+        ],
         "country": "United States",
         "web_pages": [
           "http://www.marywood.edu"
         ],
         "name": "Marywood University",
         "alpha_two_code": "US"
+
       },
       {
         "state-province": null,
@@ -24,7 +31,17 @@
           "http://www.lindenwood.edu/"
         ],
         "name": "Lindenwood University",
-        "alpha_two_code": "US"
+        "alpha_two_code": "US",
+        "sports": [
+          {
+            "type": "Football",
+            "location": "Outdoor stadium"
+          },
+          {
+            "type": "Hockey",
+            "location": "Indoor arena"
+          }
+        ]
       }
     ]
   },

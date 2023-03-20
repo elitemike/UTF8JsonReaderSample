@@ -14,6 +14,7 @@ namespace JsonReader
         public static readonly byte[] WebPages_UTF8 = Encoding.UTF8.GetBytes("web_pages");
         public static readonly byte[] Name_UTF8 = Encoding.UTF8.GetBytes("name");
         public static readonly byte[] AlphaTwoCode_UTF8 = Encoding.UTF8.GetBytes("alpha_two_code");
+        public static readonly byte[] Sports_UTF8 = Encoding.UTF8.GetBytes("sports");
 
         public string StateProvince { get; set; }
         public List<string> Domains { get; set; }
@@ -21,5 +22,16 @@ namespace JsonReader
         public List<string> WebPages { get; set; }
         public string Name { get; set; }
         public string AlphaTwoCode { get; set; }
+
+        public List<Sport> Sports { get; set; }
     }
+
+    public class Sport {
+        public static readonly byte[] Type_UTF8 = Encoding.UTF8.GetBytes("type");
+        public static readonly byte[] Location_UTF8 = Encoding.UTF8.GetBytes("location");
+
+        public string Type { get; set; }
+        public string Location { get; set; }
+    }
+
 }
